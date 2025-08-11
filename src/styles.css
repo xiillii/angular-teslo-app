@@ -1,4 +1,18 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/google/montserrat/alternates/MontserratAlternates-Medium.ttf') format('truetype');
+  font-weight: 400; /* Define the weight, e.g., normal */
+  font-style: normal; /* Define the style */
+}
+
 @import "tailwindcss";
+
+@theme {
+  --font-montserrat: 'Montserrat', sans-serif;
+}
+
+
  @plugin "daisyui" {
    themes: business --default;
  }
+
