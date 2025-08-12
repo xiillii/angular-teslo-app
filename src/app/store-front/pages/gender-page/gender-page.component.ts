@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
@@ -7,7 +8,7 @@ import { map } from 'rxjs';
 
 @Component({
   selector: 'app-gender-page',
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, UpperCasePipe],
   templateUrl: './gender-page.component.html',
 })
 export class GenderPageComponent {
