@@ -28,8 +28,6 @@ export class ProductsService {
   getProducts(options: Options): Observable<ListProductDto> {
     const { limit = 9, offset = 0, gender = '' } = options;
 
-    console.log('Fetching products with options:', options);
-
     const response = this.http.get<ListProductResponse>(`${baseUrl}/products`, {
       params: {
         limit,

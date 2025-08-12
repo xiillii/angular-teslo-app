@@ -13,7 +13,6 @@ export class ProductCardComponent {
   product = input.required<ProductDto>();
 
   imageUrl = computed(() => {
-    console.log(this.product().images[0]);
     return `http://localhost:3000/api/files/product/${
       this.product().images[0]
     }`;

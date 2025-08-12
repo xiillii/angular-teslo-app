@@ -18,7 +18,6 @@ export class ProductPageComponent {
   productResource = rxResource({
     request: () => ({ id: this.productSlug }),
     loader: ({ request }) => {
-      console.log('Fetching product with ID:', request.id);
       return this.productService.getProductById(request.id);
     },
   });
