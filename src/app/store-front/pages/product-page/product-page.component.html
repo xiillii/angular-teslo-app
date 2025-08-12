@@ -9,9 +9,9 @@
 @if (productResource.hasValue()) {
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
   <!-- Imagenes -->
-  <app-product-carousel
+  <app-product-daisyui-carousel
     [images]="productResource.value()?.images"
-  ></app-product-carousel>
+  ></app-product-daisyui-carousel>
 
   <div>
     <h2 class="text-2xl font-bold font-montserrat">

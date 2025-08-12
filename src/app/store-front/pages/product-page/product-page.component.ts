@@ -3,10 +3,11 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '@products/services/products.service';
 import { ProductSwiperCarouselComponent } from '@products/components/product-swiper-carousel/product-swiper-carousel.component';
+import { ProductDaisyuiCarouselComponent } from '@products/components/product-daisyui-carousel/product-daisyui-carousel.component';
 
 @Component({
   selector: 'app-product-page',
-  imports: [ProductSwiperCarouselComponent],
+  imports: [ProductSwiperCarouselComponent, ProductDaisyuiCarouselComponent],
   templateUrl: './product-page.component.html',
 })
 export class ProductPageComponent {
