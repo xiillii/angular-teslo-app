@@ -14,7 +14,7 @@ import 'swiper/css/pagination';
 import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 
 @Component({
-  selector: 'app-product-carousel',
+  selector: 'app-product-swiper-carousel',
   imports: [ProductImagePipe],
   templateUrl: './product-swiper-carousel.component.html',
   styles: `
