@@ -35,3 +35,16 @@ export enum Size {
   Xs = 'XS',
   Xxl = 'XXL',
 }
+
+export interface ProductBySlugResponse {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+  slug: string;
+  stock: number;
+  sizes: string[];
+  gender: string;
+  tags: string[];
+  images: string[];
+}

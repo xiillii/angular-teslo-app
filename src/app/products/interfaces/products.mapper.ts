@@ -3,6 +3,7 @@ import {
   Product,
   Gender,
   Size,
+  ProductBySlugResponse,
 } from './list-product.response.interface';
 import {
   ListProductDto,
@@ -43,5 +44,22 @@ export class ProductsMapper {
 
   static toGenderDto(gender: Gender): GenderDto {
     return GenderDto[gender as unknown as keyof typeof GenderDto];
+  }
+
+  static toProductBySlug(product: ProductBySlugResponse): ProductDto {
+    return {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      slug: product.slug,
+      stock: product.stock,
+      sizes: product.sizes.map((size) =>
+        ProductsMapper.toSizeDto(size as Size)
+      ),
+      gender: ProductsMapper.toGenderDto(product.gender as Gender),
+      tags: product.tags,
+      images: product.images,
+    };
   }
 }

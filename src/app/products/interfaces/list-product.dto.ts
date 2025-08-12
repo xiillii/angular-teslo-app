@@ -17,7 +17,7 @@ export interface ProductDto {
   gender: GenderDto;
   tags: string[];
   images: string[];
-  user: UserDto;
+  user?: UserDto;
 }
 
 export enum GenderDto {

@@ -1,9 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ListProductDto } from '@products/interfaces/list-product.dto';
-import { ListProductResponse } from '@products/interfaces/list-product.response.interface';
+import {
+  ListProductDto,
+  ProductDto,
+} from '@products/interfaces/list-product.dto';
+import {
+  ListProductResponse,
+  Product,
+  ProductBySlugResponse,
+} from '@products/interfaces/list-product.response.interface';
 import { ProductsMapper } from '@products/interfaces/products.mapper';
-import { map, Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 const baseUrl = environment.baseUrl;
@@ -28,10 +35,22 @@ export class ProductsService {
         gender,
       },
     });
+    return response.pipe(map((res) => ProductsMapper.toListProductDto(res)));
+  }
+
+  getProductById(id: string): Observable<ProductDto | null> {
+    const response = this.http.get<ProductBySlugResponse>(
+      `${baseUrl}/products/${id}`
+    );
+
     return response.pipe(
-      map((res) => ProductsMapper.toListProductDto(res)),
-      tap((res) => {
-        console.log('Products fetched:', res);
+      map((res) => {
+        const dataMapped = ProductsMapper.toProductBySlug(res);
+        return dataMapped;
+      }),
+      catchError((error) => {
+        console.error('Error fetching product:', error);
+        return of(null);
       })
     );
   }
