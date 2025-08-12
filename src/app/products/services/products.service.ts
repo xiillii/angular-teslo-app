@@ -24,9 +24,16 @@ interface Options {
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   private http = inject(HttpClient);
+  private productsCache = new Map<string, ListProductDto>();
 
   getProducts(options: Options): Observable<ListProductDto> {
     const { limit = 9, offset = 0, gender = '' } = options;
+
+    const key = `#${gender}-${offset}-${limit}#`;
+
+    if (this.productsCache.has(key)) {
+      return of(this.productsCache.get(key)!);
+    }
 
     const response = this.http.get<ListProductResponse>(`${baseUrl}/products`, {
       params: {
@@ -35,7 +42,12 @@ export class ProductsService {
         gender,
       },
     });
-    return response.pipe(map((res) => ProductsMapper.toListProductDto(res)));
+    return response.pipe(
+      map((res) => ProductsMapper.toListProductDto(res)),
+      tap((respDto) => {
+        this.productsCache.set(key, respDto);
+      })
+    );
   }
 
   getProductById(id: string): Observable<ProductDto | null> {
