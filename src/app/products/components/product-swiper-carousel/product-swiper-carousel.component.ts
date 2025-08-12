@@ -16,7 +16,7 @@ import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 @Component({
   selector: 'app-product-carousel',
   imports: [ProductImagePipe],
-  templateUrl: './product-carousel.component.html',
+  templateUrl: './product-swiper-carousel.component.html',
   styles: `
     .swiper {
       width: 100%;
@@ -24,7 +24,7 @@ import { ProductImagePipe } from '@products/pipes/product-image.pipe';
     }
   `,
 })
-export class ProductCarouselComponent implements AfterViewInit {
+export class ProductSwiperCarouselComponent implements AfterViewInit {
   images = input.required<string[] | null | undefined>();
   swiperDiv = viewChild.required<ElementRef>('swiperDiv');
 
