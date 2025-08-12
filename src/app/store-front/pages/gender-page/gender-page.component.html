@@ -1,4 +1,21 @@
-<p>gender-page works!</p>
-,
+@if (productsResource.isLoading()){
+<div class="flex justify-center items-center h-screen">
+  <span class="loading loading-spinner loading-lg"></span>
+</div>
+}
 
-<h1>{{ gender() }}</h1>
+<h1 class="text-3xl font-bold font-montserrat">Todos los productos</h1>
+<h2 class="text-xl mb-5">{{ gender() }}</h2>
+
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-4"
+>
+  @for (product of productsResource.value()?.products; track $index) {
+  <app-product-card [product]="product"></app-product-card>
+  }
+
+  <!-- empty -->
+  @empty {
+  <p>No hay productos disponibles.</p>
+  }
+</div>
