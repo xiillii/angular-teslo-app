@@ -8,12 +8,26 @@ import { environment } from 'src/environments/environment.development';
 
 const baseUrl = environment.baseUrl;
 
+interface Options {
+  limit?: number;
+  offset?: number;
+  gender?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   private http = inject(HttpClient);
 
-  getProducts(): Observable<ListProductDto> {
-    const response = this.http.get<ListProductResponse>(`${baseUrl}/products`);
+  getProducts(options: Options): Observable<ListProductDto> {
+    const { limit = 9, offset = 0, gender = '' } = options;
+
+    const response = this.http.get<ListProductResponse>(`${baseUrl}/products`, {
+      params: {
+        limit,
+        offset,
+        gender,
+      },
+    });
     return response.pipe(map((res) => ProductsMapper.toListProductDto(res)));
   }
 }
