@@ -6,7 +6,6 @@ import {
 } from '@products/interfaces/list-product.dto';
 import {
   ListProductResponse,
-  Product,
   ProductBySlugResponse,
 } from '@products/interfaces/list-product.response.interface';
 import { ProductsMapper } from '@products/interfaces/products.mapper';
@@ -25,6 +24,7 @@ interface Options {
 export class ProductsService {
   private http = inject(HttpClient);
   private productsCache = new Map<string, ListProductDto>();
+  private productCache = new Map<string, ProductDto>();
 
   getProducts(options: Options): Observable<ListProductDto> {
     const { limit = 9, offset = 0, gender = '' } = options;
@@ -51,6 +51,11 @@ export class ProductsService {
   }
 
   getProductById(id: string): Observable<ProductDto | null> {
+    const key = `#${id}#`;
+    if (this.productCache.has(key)) {
+      return of(this.productCache.get(key)!);
+    }
+
     const response = this.http.get<ProductBySlugResponse>(
       `${baseUrl}/products/${id}`
     );
@@ -59,6 +64,9 @@ export class ProductsService {
       map((res) => {
         const dataMapped = ProductsMapper.toProductBySlug(res);
         return dataMapped;
+      }),
+      tap((respDto) => {
+        this.productCache.set(key, respDto);
       }),
       catchError((error) => {
         console.error('Error fetching product:', error);
