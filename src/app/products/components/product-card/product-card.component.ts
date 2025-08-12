@@ -2,10 +2,11 @@ import { SlicePipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductDto } from '@products/interfaces/list-product.dto';
+import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink, SlicePipe],
+  imports: [RouterLink, SlicePipe, ProductImagePipe],
   templateUrl: './product-card.component.html',
 })
 export class ProductCardComponent {

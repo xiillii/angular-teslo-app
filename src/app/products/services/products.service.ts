@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { ListProductDto } from '@products/interfaces/list-product.dto';
 import { ListProductResponse } from '@products/interfaces/list-product.response.interface';
 import { ProductsMapper } from '@products/interfaces/products.mapper';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 const baseUrl = environment.baseUrl;
@@ -28,6 +28,11 @@ export class ProductsService {
         gender,
       },
     });
-    return response.pipe(map((res) => ProductsMapper.toListProductDto(res)));
+    return response.pipe(
+      map((res) => ProductsMapper.toListProductDto(res)),
+      tap((res) => {
+        console.log('Products fetched:', res);
+      })
+    );
   }
 }
