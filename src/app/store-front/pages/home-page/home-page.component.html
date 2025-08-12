@@ -20,3 +20,8 @@
   <p>No hay productos disponibles.</p>
   }
 </div>
+
+<app-pagination
+  [pages]="productsResource.value()?.pages ?? 0"
+  [currentPage]="currentPage()"
+></app-pagination>
