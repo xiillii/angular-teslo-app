@@ -1,3 +1,5 @@
+import { LoginDto } from './login.dto';
+import { LoginResponse } from './login.response.interface';
 import { UserDto } from './user.dto';
 import { User } from './user.response.interface';
 
@@ -9,6 +11,13 @@ export class AuthMapper {
       fullName: user.fullName,
       isActive: user.isActive,
       roles: user.roles,
+    };
+  }
+
+  static toLoginDto(loginResponse: LoginResponse): LoginDto {
+    return {
+      user: AuthMapper.toUserDto(loginResponse.user),
+      token: loginResponse.token,
     };
   }
 }
