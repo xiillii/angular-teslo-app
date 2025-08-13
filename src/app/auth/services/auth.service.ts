@@ -40,19 +40,11 @@ export class AuthService {
       .pipe(
         map((response) => AuthMapper.toLoginDto(response)),
         tap((dto) => {
-          this._user.set(dto.user);
-          this._token.set(dto.token);
-          this._authStatus.set('authenticated');
-
-          localStorage.setItem('token', dto.token);
+          this.handleAuthSuccess(dto);
         }),
         map(() => true),
         catchError((error) => {
-          console.error('Login error:', error);
-          this._authStatus.set('unauthenticated');
-          this._user.set(null);
-          this._token.set(null);
-          localStorage.removeItem('token');
+          this.logout();
 
           return of(false);
         })
@@ -63,6 +55,8 @@ export class AuthService {
     const token = localStorage.getItem('token');
 
     if (!token) {
+      this.logout();
+
       return of(false);
     }
 
@@ -73,21 +67,31 @@ export class AuthService {
       .pipe(
         map((response) => {
           const dto = AuthMapper.toLoginDto(response);
-          this._user.set(dto.user);
-          this._token.set(dto.token);
-          this._authStatus.set('authenticated');
+
+          this.handleAuthSuccess(dto);
 
           return true;
         }),
         catchError((error) => {
-          console.error('Check auth status error:', error);
-          this._authStatus.set('unauthenticated');
-          this._user.set(null);
-          this._token.set(null);
-          localStorage.removeItem('token');
+          this.logout();
 
           return of(false);
         })
       );
+  }
+
+  logout(): void {
+    this._authStatus.set('unauthenticated');
+    this._user.set(null);
+    this._token.set(null);
+    localStorage.removeItem('token');
+  }
+
+  private handleAuthSuccess(dto: LoginDto): void {
+    this._user.set(dto.user);
+    this._token.set(dto.token);
+    this._authStatus.set('authenticated');
+
+    localStorage.setItem('token', dto.token);
   }
 }
