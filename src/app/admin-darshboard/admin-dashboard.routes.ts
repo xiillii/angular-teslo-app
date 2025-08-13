@@ -9,12 +9,25 @@ export const adminDashboardRoutes: Routes = [
     component: AdminDashboardLayoutComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'products',
+        pathMatch: 'full',
+      },
+      {
         path: 'products',
         component: ProductsAdminPageComponent,
       },
       {
         path: 'products/:id',
         component: ProductAdminPageComponent,
+      },
+      {
+        path: '**',
+        loadComponent() {
+          return import('./pages/not-found-page/not-found-page.component').then(
+            (m) => m.NotFoundPageComponent
+          );
+        },
       },
     ],
   },
