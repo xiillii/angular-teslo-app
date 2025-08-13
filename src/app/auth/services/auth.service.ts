@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { AuthMapper } from '@auth/interfaces/auth.mapper';
 import { LoginDto } from '@auth/interfaces/login.dto';
 import { LoginResponse } from '@auth/interfaces/login.response.interface';
@@ -17,6 +18,10 @@ export class AuthService {
   private _token = signal<string | null>(null);
 
   private http = inject(HttpClient);
+
+  checkAuthStatusResource = rxResource({
+    loader: () => this.checkAuthStatus(),
+  });
 
   authStatus = computed<AuthStatus>(() => {
     if (this._authStatus() === 'checking') return 'checking';
