@@ -6,6 +6,16 @@
 
 <div class="divider"></div>
 
+<app-pagination
+  [pages]="productsResource.value()?.pages ?? 0"
+  [currentPage]="paginationService.currentPage()"
+></app-pagination>
+
 <app-products-table-component
   [products]="productsResource.value()?.products ?? []"
 ></app-products-table-component>
+
+<app-pagination
+  [pages]="productsResource.value()?.pages ?? 0"
+  [currentPage]="paginationService.currentPage()"
+></app-pagination>
