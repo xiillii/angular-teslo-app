@@ -4,7 +4,7 @@ import { AuthMapper } from '@auth/interfaces/auth.mapper';
 import { LoginDto } from '@auth/interfaces/login.dto';
 import { LoginResponse } from '@auth/interfaces/login.response.interface';
 import { UserDto } from '@auth/interfaces/user.dto';
-import { map, Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const baseUrl = environment.baseUrl;
@@ -29,7 +29,7 @@ export class AuthService {
   user = computed<UserDto | null>(() => this._user());
   token = computed<string | null>(() => this._token());
 
-  login(email: string, password: string): Observable<LoginDto> {
+  login(email: string, password: string): Observable<boolean> {
     return this.http
       .post<LoginResponse>(`${baseUrl}/auth/login`, { email, password })
       .pipe(
@@ -40,6 +40,16 @@ export class AuthService {
           this._authStatus.set('authenticated');
 
           localStorage.setItem('token', dto.token);
+        }),
+        map(() => true),
+        catchError((error) => {
+          console.error('Login error:', error);
+          this._authStatus.set('unauthenticated');
+          this._user.set(null);
+          this._token.set(null);
+          localStorage.removeItem('token');
+
+          return of(false);
         })
       );
   }
