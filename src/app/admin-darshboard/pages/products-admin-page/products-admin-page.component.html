@@ -5,3 +5,7 @@
 </h3>
 
 <div class="divider"></div>
+
+<app-products-table-component
+  [products]="productsResource.value()?.products ?? []"
+></app-products-table-component>
