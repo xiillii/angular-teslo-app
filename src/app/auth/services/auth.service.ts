@@ -53,4 +53,36 @@ export class AuthService {
         })
       );
   }
+
+  checkAuthStatus(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return of(false);
+    }
+
+    return this.http
+      .get<LoginResponse>(`${baseUrl}/auth/check-status`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .pipe(
+        map((response) => {
+          const dto = AuthMapper.toLoginDto(response);
+          this._user.set(dto.user);
+          this._token.set(dto.token);
+          this._authStatus.set('authenticated');
+
+          return true;
+        }),
+        catchError((error) => {
+          console.error('Check auth status error:', error);
+          this._authStatus.set('unauthenticated');
+          this._user.set(null);
+          this._token.set(null);
+          localStorage.removeItem('token');
+
+          return of(false);
+        })
+      );
+  }
 }
