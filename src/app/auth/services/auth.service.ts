@@ -15,7 +15,7 @@ type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated';
 export class AuthService {
   private _authStatus = signal<AuthStatus>('checking');
   private _user = signal<UserDto | null>(null);
-  private _token = signal<string | null>(null);
+  private _token = signal<string | null>(localStorage.getItem('token'));
 
   private http = inject(HttpClient);
 
@@ -60,24 +60,20 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http
-      .get<LoginResponse>(`${baseUrl}/auth/check-status`, {
-        headers: { Authorization: `Bearer ${token}` },
+    return this.http.get<LoginResponse>(`${baseUrl}/auth/check-status`).pipe(
+      map((response) => {
+        const dto = AuthMapper.toLoginDto(response);
+
+        this.handleAuthSuccess(dto);
+
+        return true;
+      }),
+      catchError((error) => {
+        this.logout();
+
+        return of(false);
       })
-      .pipe(
-        map((response) => {
-          const dto = AuthMapper.toLoginDto(response);
-
-          this.handleAuthSuccess(dto);
-
-          return true;
-        }),
-        catchError((error) => {
-          this.logout();
-
-          return of(false);
-        })
-      );
+    );
   }
 
   logout(): void {
