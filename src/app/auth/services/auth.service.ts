@@ -76,6 +76,32 @@ export class AuthService {
     );
   }
 
+  register(
+    fullname: string,
+    email: string,
+    password: string
+  ): Observable<boolean> {
+    return this.http
+      .post<LoginResponse>(`${baseUrl}/auth/register`, {
+        fullName: fullname,
+        email,
+        password,
+      })
+      .pipe(
+        map((response) => AuthMapper.toLoginDto(response)),
+        tap((dto) => {
+          this.handleAuthSuccess(dto);
+        }),
+        map(() => true),
+        catchError((error) => {
+          console.error('Registration error:', error);
+          this.logout();
+
+          return of(false);
+        })
+      );
+  }
+
   logout(): void {
     this._authStatus.set('unauthenticated');
     this._user.set(null);

@@ -49,5 +49,24 @@ export class RegisterPageComponent {
       }, 5000);
       return;
     }
+
+    const {
+      fullname = '',
+      email = '',
+      password = '',
+    } = this.registerForm.value;
+
+    this.authService
+      .register(fullname!, email!, password!)
+      .subscribe((isRegistered) => {
+        if (isRegistered) {
+          this.router.navigate(['/']);
+          return;
+        }
+        this.hasError.set(true);
+        setTimeout(() => {
+          this.hasError.set(false);
+        }, 5000);
+      });
   }
 }
