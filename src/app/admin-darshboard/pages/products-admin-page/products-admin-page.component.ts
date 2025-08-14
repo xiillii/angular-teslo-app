@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ProductsTableComponentComponent } from '@products/components/productsTableComponent/productsTableComponent.component';
 import { ProductsService } from '@products/services/products.service';
@@ -13,6 +14,7 @@ import { PaginationService } from '@shared/components/pagination/services/pagina
 export class ProductsAdminPageComponent {
   productService = inject(ProductsService);
   paginationService = inject(PaginationService);
+  router = inject(Router);
 
   pageSize = signal(10);
 
@@ -30,5 +32,6 @@ export class ProductsAdminPageComponent {
 
   onPageSizeChange(size: number) {
     this.pageSize.set(size);
+    this.router.navigate(['admin/products'], { queryParams: { page: 1 } });
   }
 }
