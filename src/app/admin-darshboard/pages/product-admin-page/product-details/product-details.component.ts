@@ -7,6 +7,7 @@ import { FormErrorLabelComponent } from '@shared/components/form-error-label/for
 import { ProductDaisyuiCarouselComponent } from '@products/components/product-daisyui-carousel/product-daisyui-carousel.component';
 import { ProductsService } from '@products/services/products.service';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'product-details',
@@ -69,7 +70,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productForm.patchValue({ sizes: currentSizes });
   }
 
-  onSubmit() {
+  async onSubmit() {
     const isValid = this.productForm.valid;
 
     this.productForm.markAllAsTouched();
@@ -93,43 +94,44 @@ export class ProductDetailsComponent implements OnInit {
 
     if (this.product().id === 'new') {
       // Handle new product creation
-      this.productService.createProduct(productLike).subscribe({
-        next: (newProduct) => {
-          this.router.navigate(['/admin/products', newProduct!.id]);
+      const product = await firstValueFrom(
+        this.productService.createProduct(productLike)
+      )
+        .then((product) => {
           this.saveSuccess.set(true);
           setTimeout(() => {
             this.saveSuccess.set(false);
             this.saveError.set(false);
+            this.router.navigate(['/admin/products', product!.id]);
           }, 5000);
-        },
-        error: (error) => {
-          console.error('Error creating new product:', error);
+        })
+        .catch((error) => {
+          console.error('Error creating product:', error);
           this.saveError.set(true);
           setTimeout(() => {
             this.saveError.set(false);
             this.saveSuccess.set(false);
           }, 5000);
-        },
-      });
+        });
+
       return;
     }
 
-    this.productService.updateProduct(productLike).subscribe({
-      next: (updatedProduct) => {
+    await firstValueFrom(this.productService.updateProduct(productLike))
+      .then((product) => {
         this.saveSuccess.set(true);
         setTimeout(() => {
           this.saveSuccess.set(false);
           this.saveError.set(false);
         }, 5000);
-      },
-      error: (error) => {
+      })
+      .catch((error) => {
         console.error('Error updating product:', error);
         this.saveError.set(true);
         setTimeout(() => {
           this.saveError.set(false);
           this.saveSuccess.set(false);
         }, 5000);
-      },
-    });
+      });
   }
 }
