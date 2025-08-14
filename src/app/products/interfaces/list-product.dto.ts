@@ -31,7 +31,7 @@ export enum SizeDto {
   L = 'L',
   M = 'M',
   S = 'S',
-  Xl = 'XL',
-  Xs = 'XS',
-  Xxl = 'XXL',
+  XL = 'XL',
+  XS = 'XS',
+  XXL = 'XXL',
 }
