@@ -52,31 +52,37 @@
     <h2 class="text-lg font-bold">Datos de venta</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      <input
-        type="number"
-        placeholder="Precio"
-        class="input input-bordered w-full"
-        formControlName="price"
-        [class.border-red-500]="
-          productForm.get('price')?.invalid && productForm.get('price')?.touched
-        "
-      />
-      <app-form-error-label
-        [control]="productForm.get('price')!"
-      ></app-form-error-label>
+      <div>
+        <input
+          type="number"
+          placeholder="Precio"
+          class="input input-bordered w-full"
+          formControlName="price"
+          [class.border-red-500]="
+            productForm.get('price')?.invalid &&
+            productForm.get('price')?.touched
+          "
+        />
+        <app-form-error-label
+          [control]="productForm.get('price')!"
+        ></app-form-error-label>
+      </div>
 
-      <input
-        type="number"
-        placeholder="Inventario"
-        class="input input-bordered w-full"
-        formControlName="stock"
-        [class.border-red-500]="
-          productForm.get('stock')?.invalid && productForm.get('stock')?.touched
-        "
-      />
-      <app-form-error-label
-        [control]="productForm.get('stock')!"
-      ></app-form-error-label>
+      <div>
+        <input
+          type="number"
+          placeholder="Inventario"
+          class="input input-bordered w-full"
+          formControlName="stock"
+          [class.border-red-500]="
+            productForm.get('stock')?.invalid &&
+            productForm.get('stock')?.touched
+          "
+        />
+        <app-form-error-label
+          [control]="productForm.get('stock')!"
+        ></app-form-error-label>
+      </div>
     </div>
 
     <!-- tags -->
