@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './product-admin-page.component.html',
 })
-export class ProductAdminPageComponent { }
+export class ProductAdminPageComponent {}
