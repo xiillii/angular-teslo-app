@@ -3,10 +3,15 @@ import { ProductDto } from '@products/interfaces/list-product.dto';
 import { ProductSwiperCarouselComponent } from '@products/components/product-swiper-carousel/product-swiper-carousel.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@shared/utils/form-utils';
+import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
 
 @Component({
   selector: 'product-details',
-  imports: [ProductSwiperCarouselComponent, ReactiveFormsModule],
+  imports: [
+    ProductSwiperCarouselComponent,
+    ReactiveFormsModule,
+    FormErrorLabelComponent,
+  ],
   templateUrl: './product-details.component.html',
 })
 export class ProductDetailsComponent implements OnInit {

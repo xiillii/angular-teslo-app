@@ -18,6 +18,9 @@
         productForm.get('title')?.invalid && productForm.get('title')?.touched
       "
     />
+    <app-form-error-label
+      [errorMessage]="productForm.get('title')?.errors?.['required'] ? 'El título es requerido' : ''"
+    ></app-form-error-label>
 
     <input
       type="text"
