@@ -4,6 +4,7 @@ import { ProductSwiperCarouselComponent } from '@products/components/product-swi
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@shared/utils/form-utils';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
+import { ProductDaisyuiCarouselComponent } from '@products/components/product-daisyui-carousel/product-daisyui-carousel.component';
 
 @Component({
   selector: 'product-details',
@@ -11,6 +12,7 @@ import { FormErrorLabelComponent } from '@shared/components/form-error-label/for
     ProductSwiperCarouselComponent,
     ReactiveFormsModule,
     FormErrorLabelComponent,
+    ProductDaisyuiCarouselComponent,
   ],
   templateUrl: './product-details.component.html',
 })
