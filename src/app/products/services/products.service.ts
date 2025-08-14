@@ -118,12 +118,22 @@ export class ProductsService {
         return dataMapped;
       }),
       tap((respDto) => {
-        this.productCache.set(key, respDto);
+        this.updateCache(respDto);
       }),
       catchError((error) => {
         console.error('Error updating product:', error);
         throw error;
       })
     );
+  }
+  private updateCache(product: ProductDto) {
+    const key = `#${product.id}#`;
+    this.productCache.set(key, product);
+
+    this.productsCache.forEach((productResponse) => {
+      productResponse.products = productResponse.products.map((currentProd) =>
+        currentProd.id == product.id ? product : currentProd
+      );
+    });
   }
 }
