@@ -18,6 +18,8 @@ export class FormUtils {
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
   static emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
+  static slugPattern = '^[a-z0-9_]+(?:-[a-z0-9_]+)*$';
+  static genderPattern = '^(men|women|kid|unisex)$';
 
   private static getTextErrors(errors: ValidationErrors): string | null {
     for (const key of Object.keys(errors)) {
@@ -36,6 +38,8 @@ export class FormUtils {
           return 'El email ya está en uso';
         case 'noStrider':
           return 'El valor no puede ser "strider"';
+        case 'slug':
+          return 'El formato del slug no es válido';
       }
     }
     return null;
