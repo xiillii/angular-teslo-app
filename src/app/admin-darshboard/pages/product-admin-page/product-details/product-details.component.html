@@ -63,6 +63,7 @@
         [class.btn-primary]="productForm.value.gender === 'men'"
         [class.btn-outline]="productForm.value.gender !== 'men'"
         type="button"
+        (click)="productForm.patchValue({ gender: 'men' })"
       >
         Masculino
       </button>
@@ -71,6 +72,7 @@
         [class.btn-accent]="productForm.value.gender === 'women'"
         [class.btn-outline]="productForm.value.gender !== 'women'"
         type="button"
+        (click)="productForm.patchValue({ gender: 'women' })"
       >
         Femenino
       </button>
@@ -79,6 +81,7 @@
         [class.btn-warning]="productForm.value.gender === 'kid'"
         [class.btn-outline]="productForm.value.gender !== 'kid'"
         type="button"
+        (click)="productForm.patchValue({ gender: 'kid' })"
       >
         Niña/o
       </button>
@@ -87,6 +90,7 @@
         [class.btn-secondary]="productForm.value.gender === 'unisex'"
         [class.btn-outline]="productForm.value.gender !== 'unisex'"
         type="button"
+        (click)="productForm.patchValue({ gender: 'unisex' })"
       >
         Unisex
       </button>
