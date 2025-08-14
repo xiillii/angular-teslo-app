@@ -1,10 +1,11 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { ProductDto } from '@products/interfaces/list-product.dto';
 import { ProductSwiperCarouselComponent } from '@products/components/product-swiper-carousel/product-swiper-carousel.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@shared/utils/form-utils';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
 import { ProductDaisyuiCarouselComponent } from '@products/components/product-daisyui-carousel/product-daisyui-carousel.component';
+import { ProductsService } from '@products/services/products.service';
 
 @Component({
   selector: 'product-details',
@@ -18,6 +19,10 @@ import { ProductDaisyuiCarouselComponent } from '@products/components/product-da
 })
 export class ProductDetailsComponent implements OnInit {
   product = input.required<ProductDto>();
+  private productService = inject(ProductsService);
+
+  saveError = signal(false);
+  saveSuccess = signal(false);
 
   fb = inject(FormBuilder);
 
@@ -75,6 +80,7 @@ export class ProductDetailsComponent implements OnInit {
 
     const productLike: Partial<ProductDto> = {
       ...(formValue as any),
+      id: this.product().id,
       tags: formValue.tags
         ? formValue.tags
             .toLowerCase()
@@ -84,5 +90,23 @@ export class ProductDetailsComponent implements OnInit {
     };
 
     console.log('Form submitted successfully:', productLike);
+    this.productService.updateProduct(productLike).subscribe({
+      next: (updatedProduct) => {
+        console.log('Product updated successfully:', updatedProduct);
+        this.saveSuccess.set(true);
+        setTimeout(() => {
+          this.saveSuccess.set(false);
+          this.saveError.set(false);
+        }, 5000);
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+        this.saveError.set(true);
+        setTimeout(() => {
+          this.saveError.set(false);
+          this.saveSuccess.set(false);
+        }, 5000);
+      },
+    });
   }
 }

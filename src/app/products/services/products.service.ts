@@ -99,4 +99,31 @@ export class ProductsService {
       })
     );
   }
+
+  updateProduct(
+    productLike: Partial<ProductDto>
+  ): Observable<ProductDto | null> {
+    const key = `#${productLike.id}#`;
+
+    const { id, ...updateData } = productLike;
+
+    const response = this.http.patch<ProductBySlugResponse>(
+      `${baseUrl}/products/${id}`,
+      updateData
+    );
+
+    return response.pipe(
+      map((res) => {
+        const dataMapped = ProductsMapper.toProductBySlug(res);
+        return dataMapped;
+      }),
+      tap((respDto) => {
+        this.productCache.set(key, respDto);
+      }),
+      catchError((error) => {
+        console.error('Error updating product:', error);
+        throw error;
+      })
+    );
+  }
 }
