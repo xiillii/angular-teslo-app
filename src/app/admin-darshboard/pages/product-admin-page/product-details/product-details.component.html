@@ -19,7 +19,7 @@
       "
     />
     <app-form-error-label
-      [errorMessage]="productForm.get('title')?.errors?.['required'] ? 'El título es requerido' : ''"
+      [control]="productForm.get('title')!"
     ></app-form-error-label>
 
     <input
@@ -31,6 +31,9 @@
         productForm.get('slug')?.invalid && productForm.get('slug')?.touched
       "
     />
+    <app-form-error-label
+      [control]="productForm.get('slug')!"
+    ></app-form-error-label>
 
     <textarea
       class="textarea textarea-bordered"
@@ -42,6 +45,9 @@
         productForm.get('description')?.touched
       "
     ></textarea>
+    <app-form-error-label
+      [control]="productForm.get('description')!"
+    ></app-form-error-label>
 
     <h2 class="text-lg font-bold">Datos de venta</h2>
 
@@ -55,6 +61,9 @@
           productForm.get('price')?.invalid && productForm.get('price')?.touched
         "
       />
+      <app-form-error-label
+        [control]="productForm.get('price')!"
+      ></app-form-error-label>
 
       <input
         type="number"
@@ -65,6 +74,9 @@
           productForm.get('stock')?.invalid && productForm.get('stock')?.touched
         "
       />
+      <app-form-error-label
+        [control]="productForm.get('stock')!"
+      ></app-form-error-label>
     </div>
 
     <!-- tags -->
@@ -77,6 +89,9 @@
         productForm.get('tags')?.invalid && productForm.get('tags')?.touched
       "
     />
+    <app-form-error-label
+      [control]="productForm.get('tags')!"
+    ></app-form-error-label>
 
     <!-- Botones para el género -->
     <div class="grid grid-cols-4 gap-2">

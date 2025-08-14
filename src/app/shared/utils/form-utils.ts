@@ -21,7 +21,7 @@ export class FormUtils {
   static slugPattern = '^[a-z0-9_]+(?:-[a-z0-9_]+)*$';
   static genderPattern = '^(men|women|kid|unisex)$';
 
-  private static getTextErrors(errors: ValidationErrors): string | null {
+  static getTextErrors(errors: ValidationErrors): string | null {
     for (const key of Object.keys(errors)) {
       switch (key) {
         case 'required':
