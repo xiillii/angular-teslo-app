@@ -13,8 +13,5 @@
 <!--  -->
 
 @if (productResource.hasValue()) {
-<div class="flex justify-center items-center h-screen">
-  <span class="text-green-500">Product loaded successfully</span>
-  {{ productResource.value()?.title }}
-</div>
+<product-details [product]="productResource.value()!"></product-details>
 }
