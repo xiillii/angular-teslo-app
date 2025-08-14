@@ -14,6 +14,9 @@
       placeholder="Título"
       class="input input-bordered w-full"
       formControlName="title"
+      [class.border-red-500]="
+        productForm.get('title')?.invalid && productForm.get('title')?.touched
+      "
     />
 
     <input
@@ -21,6 +24,9 @@
       placeholder="Slug"
       class="input input-bordered w-full"
       formControlName="slug"
+      [class.border-red-500]="
+        productForm.get('slug')?.invalid && productForm.get('slug')?.touched
+      "
     />
 
     <textarea
@@ -28,6 +34,10 @@
       placeholder="Descripción"
       rows="6"
       formControlName="description"
+      [class.border-red-500]="
+        productForm.get('description')?.invalid &&
+        productForm.get('description')?.touched
+      "
     ></textarea>
 
     <h2 class="text-lg font-bold">Datos de venta</h2>
@@ -38,6 +48,9 @@
         placeholder="Precio"
         class="input input-bordered w-full"
         formControlName="price"
+        [class.border-red-500]="
+          productForm.get('price')?.invalid && productForm.get('price')?.touched
+        "
       />
 
       <input
@@ -45,6 +58,9 @@
         placeholder="Inventario"
         class="input input-bordered w-full"
         formControlName="stock"
+        [class.border-red-500]="
+          productForm.get('stock')?.invalid && productForm.get('stock')?.touched
+        "
       />
     </div>
 
@@ -54,6 +70,9 @@
       placeholder="Tags"
       class="input input-bordered w-full"
       formControlName="tags"
+      [class.border-red-500]="
+        productForm.get('tags')?.invalid && productForm.get('tags')?.touched
+      "
     />
 
     <!-- Botones para el género -->
