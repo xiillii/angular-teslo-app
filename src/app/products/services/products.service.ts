@@ -70,7 +70,7 @@ export class ProductsService {
       }),
       catchError((error) => {
         console.error('Error fetching product:', error);
-        return of(null);
+        throw error;
       })
     );
   }
@@ -95,7 +95,7 @@ export class ProductsService {
       }),
       catchError((error) => {
         console.error('Error fetching product:', error);
-        return of(null);
+        throw error;
       })
     );
   }
