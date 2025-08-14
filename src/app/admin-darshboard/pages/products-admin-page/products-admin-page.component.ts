@@ -1,14 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ProductsTableComponentComponent } from '@products/components/productsTableComponent/productsTableComponent.component';
 import { ProductsService } from '@products/services/products.service';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { PaginationService } from '@shared/components/pagination/services/pagination.service';
+import { ProductsTableComponent } from '@products/components/products-table/products-table.component';
 
 @Component({
   selector: 'app-products-admin-page',
-  imports: [ProductsTableComponentComponent, PaginationComponent],
+  imports: [ProductsTableComponent, PaginationComponent],
   templateUrl: './products-admin-page.component.html',
 })
 export class ProductsAdminPageComponent {

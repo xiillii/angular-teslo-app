@@ -5,10 +5,10 @@ import { ProductDto } from '@products/interfaces/list-product.dto';
 import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 
 @Component({
-  selector: 'app-products-table-component',
+  selector: 'app-products-table',
   imports: [CurrencyPipe, ProductImagePipe, RouterLink],
-  templateUrl: './productsTableComponent.component.html',
+  templateUrl: './products-table.component.html',
 })
-export class ProductsTableComponentComponent {
+export class ProductsTableComponent {
   products = input.required<ProductDto[]>();
 }

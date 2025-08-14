@@ -23,9 +23,9 @@
   </select>
 </div>
 
-<app-products-table-component
+<app-products-table
   [products]="productsResource.value()?.products ?? []"
-></app-products-table-component>
+></app-products-table>
 
 <app-pagination
   [pages]="productsResource.value()?.pages ?? 0"
