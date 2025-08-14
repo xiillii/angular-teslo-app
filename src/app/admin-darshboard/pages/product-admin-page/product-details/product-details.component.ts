@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { ProductDto } from '@products/interfaces/list-product.dto';
 import { ProductSwiperCarouselComponent } from '@products/components/product-swiper-carousel/product-swiper-carousel.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { FormUtils } from '@shared/utils/form-utils';
   imports: [ProductSwiperCarouselComponent, ReactiveFormsModule],
   templateUrl: './product-details.component.html',
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements OnInit {
   product = input.required<ProductDto>();
 
   fb = inject(FormBuilder);
@@ -24,7 +24,7 @@ export class ProductDetailsComponent {
     price: [0, [Validators.required, Validators.min(0)]],
     stock: [0, [Validators.required, Validators.min(0)]],
     sizes: [['']],
-    images: [''],
+    images: [['']],
     gender: [
       'unisex',
       [Validators.required, Validators.pattern(FormUtils.genderPattern)],
@@ -33,6 +33,15 @@ export class ProductDetailsComponent {
   });
 
   sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+  ngOnInit(): void {
+    this.setFormValue(this.product());
+  }
+
+  private setFormValue(formLike: Partial<ProductDto>) {
+    this.productForm.patchValue(formLike as any);
+    this.productForm.patchValue({ tags: formLike.tags?.join(',') });
+  }
 
   onSubmit() {
     console.log('Form submitted:', this.productForm.value);
