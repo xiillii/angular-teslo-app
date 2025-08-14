@@ -109,7 +109,7 @@
         class="btn btn-sm btn-outline"
         type="button"
         (click)="onSizeClicked(size)"
-        [class.btn-primary]="(productForm.value.sizes ?? []).includes(size)"
+        [class.btn-primary]="productForm.value.sizes?.includes(size)"
       >
         {{ size }}
       </button>
