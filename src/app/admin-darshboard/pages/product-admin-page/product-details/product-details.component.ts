@@ -35,8 +35,8 @@ export class ProductDetailsComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(FormUtils.slugPattern)],
     ],
-    price: [0, [Validators.required, Validators.min(0)]],
-    stock: [0, [Validators.required, Validators.min(0)]],
+    price: [0, [Validators.required, Validators.min(0.01)]],
+    stock: [0, [Validators.required, Validators.min(0.01)]],
     sizes: [['']],
     images: [['']],
     gender: [
@@ -114,7 +114,6 @@ export class ProductDetailsComponent implements OnInit {
       return;
     }
 
-    console.log('Form submitted successfully:', productLike);
     this.productService.updateProduct(productLike).subscribe({
       next: (updatedProduct) => {
         this.saveSuccess.set(true);
