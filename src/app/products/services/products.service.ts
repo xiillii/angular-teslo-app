@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  GenderDto,
   ListProductDto,
   ProductDto,
 } from '@products/interfaces/list-product.dto';
@@ -19,6 +20,19 @@ interface Options {
   offset?: number;
   gender?: string;
 }
+
+const emptyProduct: ProductDto = {
+  id: 'new',
+  title: '',
+  description: '',
+  slug: '',
+  price: 0,
+  stock: 0,
+  sizes: [],
+  images: [],
+  gender: GenderDto.unisex,
+  tags: [],
+};
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -76,6 +90,10 @@ export class ProductsService {
   }
 
   getProductById(id: string): Observable<ProductDto | null> {
+    if (id == 'new') {
+      return of(emptyProduct);
+    }
+
     const key = `#${id}#`;
     if (this.productCache.has(key)) {
       return of(this.productCache.get(key)!);
@@ -126,6 +144,38 @@ export class ProductsService {
       })
     );
   }
+
+  createProduct(
+    productLike: Partial<ProductDto>
+  ): Observable<ProductDto | null> {
+    const { id, ...createData } = productLike;
+    const response = this.http.post<ProductBySlugResponse>(
+      `${baseUrl}/products`,
+      createData
+    );
+
+    return response.pipe(
+      map((res) => {
+        const dataMapped = ProductsMapper.toProductBySlug(res);
+        return dataMapped;
+      }),
+      tap((respDto) => {
+        this.insertToCache(respDto);
+      }),
+      catchError((error) => {
+        console.error('Error creating product:', error);
+        throw error;
+      })
+    );
+  }
+
+  private insertToCache(product: ProductDto) {
+    const key = `#${product.id}#`;
+    this.productCache.set(key, product);
+
+    this.productsCache.clear();
+  }
+
   private updateCache(product: ProductDto) {
     const key = `#${product.id}#`;
     this.productCache.set(key, product);

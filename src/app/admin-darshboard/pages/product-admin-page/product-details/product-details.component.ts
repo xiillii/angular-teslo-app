@@ -6,6 +6,7 @@ import { FormUtils } from '@shared/utils/form-utils';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
 import { ProductDaisyuiCarouselComponent } from '@products/components/product-daisyui-carousel/product-daisyui-carousel.component';
 import { ProductsService } from '@products/services/products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'product-details',
@@ -20,6 +21,7 @@ import { ProductsService } from '@products/services/products.service';
 export class ProductDetailsComponent implements OnInit {
   product = input.required<ProductDto>();
   private productService = inject(ProductsService);
+  router = inject(Router);
 
   saveError = signal(false);
   saveSuccess = signal(false);
@@ -89,10 +91,32 @@ export class ProductDetailsComponent implements OnInit {
         : [],
     };
 
+    if (this.product().id === 'new') {
+      // Handle new product creation
+      this.productService.createProduct(productLike).subscribe({
+        next: (newProduct) => {
+          this.router.navigate(['/admin/products', newProduct!.id]);
+          this.saveSuccess.set(true);
+          setTimeout(() => {
+            this.saveSuccess.set(false);
+            this.saveError.set(false);
+          }, 5000);
+        },
+        error: (error) => {
+          console.error('Error creating new product:', error);
+          this.saveError.set(true);
+          setTimeout(() => {
+            this.saveError.set(false);
+            this.saveSuccess.set(false);
+          }, 5000);
+        },
+      });
+      return;
+    }
+
     console.log('Form submitted successfully:', productLike);
     this.productService.updateProduct(productLike).subscribe({
       next: (updatedProduct) => {
-        console.log('Product updated successfully:', updatedProduct);
         this.saveSuccess.set(true);
         setTimeout(() => {
           this.saveSuccess.set(false);
