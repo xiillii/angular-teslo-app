@@ -1,3 +1,20 @@
+@if (productResource.isLoading()) {
 <div class="flex justify-center items-center h-screen">
   <span class="loading loading-ring loading-lg"></span>
 </div>
+}
+<!--  -->
+@if (productResource.error()) {
+<div class="flex justify-center items-center h-screen">
+  <span class="text-red-500">Error loading product</span>
+</div>
+}
+
+<!--  -->
+
+@if (productResource.hasValue()) {
+<div class="flex justify-center items-center h-screen">
+  <span class="text-green-500">Product loaded successfully</span>
+  {{ productResource.value()?.title }}
+</div>
+}

@@ -50,6 +50,31 @@ export class ProductsService {
     );
   }
 
+  getProductByIdSlug(idSlug: string): Observable<ProductDto | null> {
+    const key = `#${idSlug}#`;
+    if (this.productCache.has(key)) {
+      return of(this.productCache.get(key)!);
+    }
+
+    const response = this.http.get<ProductBySlugResponse>(
+      `${baseUrl}/products/${idSlug}`
+    );
+
+    return response.pipe(
+      map((res) => {
+        const dataMapped = ProductsMapper.toProductBySlug(res);
+        return dataMapped;
+      }),
+      tap((respDto) => {
+        this.productCache.set(key, respDto);
+      }),
+      catchError((error) => {
+        console.error('Error fetching product:', error);
+        return of(null);
+      })
+    );
+  }
+
   getProductById(id: string): Observable<ProductDto | null> {
     const key = `#${id}#`;
     if (this.productCache.has(key)) {
