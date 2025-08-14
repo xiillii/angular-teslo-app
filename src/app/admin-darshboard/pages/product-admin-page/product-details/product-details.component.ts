@@ -39,7 +39,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   private setFormValue(formLike: Partial<ProductDto>) {
-    this.productForm.patchValue(formLike as any);
+    this.productForm.reset(this.product() as any);
     this.productForm.patchValue({ tags: formLike.tags?.join(',') });
   }
 
