@@ -21,10 +21,10 @@ export interface ProductDto {
 }
 
 export enum GenderDto {
-  Kid = 'kid',
-  Men = 'men',
-  Unisex = 'unisex',
-  Women = 'women',
+  kid = 'kid',
+  men = 'men',
+  unisex = 'unisex',
+  women = 'women',
 }
 
 export enum SizeDto {

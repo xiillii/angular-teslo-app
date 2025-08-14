@@ -43,7 +43,9 @@ export class ProductsMapper {
   }
 
   static toGenderDto(gender: Gender): GenderDto {
-    return GenderDto[gender as unknown as keyof typeof GenderDto];
+    const result = GenderDto[gender as unknown as keyof typeof GenderDto];
+
+    return result;
   }
 
   static toProductBySlug(product: ProductBySlugResponse): ProductDto {
