@@ -11,6 +11,14 @@
         class="w-full h-auto object-cover animate-fadeIn"
       />
     </div>
+    } @empty {
+    <div class="swiper-slide">
+      <img
+        [src]="'' | productImage"
+        alt="Product Image"
+        class="w-full h-auto object-cover animate-fadeIn"
+      />
+    </div>
     }
   </div>
   <!-- If we need pagination -->

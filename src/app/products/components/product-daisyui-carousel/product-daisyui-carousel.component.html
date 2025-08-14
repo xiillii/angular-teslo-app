@@ -10,5 +10,13 @@
       class="w-[300px] h-auto object-cover"
     />
   </div>
+  } @empty {
+  <div class="carousel-item">
+    <img
+      [src]="'' | productImage"
+      class="rounded-box"
+      class="w-[300px] h-auto object-cover"
+    />
+  </div>
   }
 </div>
